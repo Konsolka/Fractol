@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"opencl.h": "c",
+		"vis.h": "c",
+		"algorithm": "c"
+	}
+}
