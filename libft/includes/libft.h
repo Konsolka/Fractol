@@ -6,14 +6,12 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 14:39:05 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/27 17:02:45 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/28 13:51:04 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# include <string.h>
 # include <stdlib.h>
 
 typedef struct		s_list

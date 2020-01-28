@@ -5,6 +5,16 @@ NAME		= fractol
 CC				=	gcc
 CFLAGS			=	-Wall -Wextra
 
+# OPTIONS
+
+OPTIONS			:=
+
+ifeq ($(OS),Darwin)
+	OPTIONS += -framework OpenCL
+else
+	OPTIONS += -l OpenCL
+endif
+
 # COLORS
 
 RED				:=	"\033[31m"
@@ -16,6 +26,9 @@ GREEN			:=	"\033[32m"
 # SRCS & OBJ
 
 SRCS			=	main.c\
+					keys.c
+
+SRCS_CL			=	sets.cl
 
 OBJ				=	$(addprefix $(OBJDIR),$(SRCS:.c=.o))
 
@@ -43,7 +56,7 @@ LIBFT_LINK		=	 -lft -L$(LIBFT_DIRECTORY)
 
 # MLX LIBRARY
 
-MLX_LINK		=	-I /usr/local/include -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit
+MLX_LINK		=	-I /usr/local/include -L /usr/local/lib -lmlx -framework OpenGL -framework AppKit -framework OpenCL
 
 # INCLUDES
 
@@ -59,10 +72,12 @@ $(OBJDIR)%.o:$(SRC_DIR)%.c $(HEADERS)
 	@echo $(WAVE) " - Compiling $<  ->  $@" $(EOC)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
+$(SRCS_CL): $(OBJ)
+
 $(LIBFT):
 	@make -C $(LIBFT_DIRECTORY)
 
-$(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
+$(NAME): $(LIBFT) $(OBJDIR) $(OBJ) $(SRCS_CL)
 	@echo $(GREEN) " - Compiling $@" $(EOC)
 	@$(CC) $(OBJ) $(MLX_LINK) $(LIBFT_LINK) -o $@
 

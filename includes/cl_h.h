@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   cl_h.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/09 13:35:46 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/28 13:48:55 by mburl            ###   ########.fr       */
+/*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
+/*   Updated: 2020/01/28 13:55:38 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#ifndef CL_H_H
+# define CL_H_H
 
-void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
-{
-	del((*alst)->content, (*alst)->content_size);
-	free(*alst);
-	*alst = NULL;
-}
+double		ft_map(double value, double start_range, double end_range,
+					double new_range_start, double new_range_end);
+
+#endif

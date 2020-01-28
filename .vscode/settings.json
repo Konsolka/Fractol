@@ -2,6 +2,21 @@
 	"files.associations": {
 		"opencl.h": "c",
 		"vis.h": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"stdlib.h": "c",
+		"__hash_table": "c",
+		"__split_buffer": "c",
+		"array": "c",
+		"bitset": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"iterator": "c",
+		"memory": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"utility": "c",
+		"vector": "c",
+		"hashtable": "c",
+		"stdio.h": "c"
 	}
 }
