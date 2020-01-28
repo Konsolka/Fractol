@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/27 18:22:15 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/28 11:12:42 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,16 @@ typedef	struct	s_mlx
 	int			ed;
 	char		*line;
 	int			iter;
+	double		xmin;
+	double		ymin;
+	double		xmax;
+	double		ymax;
+	double		xmouse;
+	double		ymouse;
 	double		zoom;
-	double		min;
-	double		max;
+	double		xmove;
+	double		ymove;
+
 }				t_mlx;
 
 void	image_put(t_mlx *mlx);
