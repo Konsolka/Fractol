@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 16:41:22 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 17:53:58 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	image_put(t_mlx *mlx)
 {
 	char		*line;
 	char		*num;
-	
+
 	mlx->img = (int *)mlx_new_image(mlx->ptr, WIDTH, HIEGHT);
 	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_size, &mlx->ed);
 	mandelbrot_init(mlx);
@@ -79,7 +79,11 @@ void	image_put(t_mlx *mlx)
 
 	mlx->cl->ret = clFlush(mlx->cl->command_queue);
     mlx->cl->ret = clFinish(mlx->cl->command_queue);
+	if (mlx->menu)
+		draw_menu(mlx);
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
+	if (mlx->menu)
+		draw_menu_strings(mlx);
 	line = ft_strdup("Iterations = ");
 	num = ft_itoa(mlx->f->iter);
 	line = ft_strcat(line, num);
@@ -87,7 +91,6 @@ void	image_put(t_mlx *mlx)
 	ft_strdel(&line);
 	ft_strdel(&num);
 	mlx_destroy_image(mlx->ptr, mlx->img);
-
 }
 
 void	cl_init(t_opcl *cl)

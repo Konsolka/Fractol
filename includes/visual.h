@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 14:04:18 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 17:54:20 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,35 @@ typedef struct	s_fractol
 	double	twoab;
 }				t_fractol;
 
+typedef struct	s_point
+{
+	int		x;
+	int		y;
+}				t_point;
+
 typedef	struct	s_mlx
 {
-	void				*ptr;
-	void				*win;
-	void				*img;
-	int					bpp;
-	int					line_size;
-	int					ed;
-	char				*line;
-	char				test;
-	int long			*data;
-	t_opcl				*cl;
-	t_fractol			*f;
+	void		*ptr;
+	void		*win;
+	void		*img;
+	int			bpp;
+	int			line_size;
+	int			ed;
+	char		*line;
+	char		test;
+	int long	*data;
+	int			menu;
+	t_opcl		*cl;
+	t_fractol	*f;
 }				t_mlx;
 
 void	image_put(t_mlx *mlx);
 int		key_parce(int key, void *param);
 int		mouse_move(int x, int y, void *param);
 int		mouse_release(int button, int x, int y, void *param);
+void	draw_menu_strings(t_mlx *mlx);
 int		mouse_move_void(int x, int y, void *param);
 int		mouse_press(int button, int x, int y, void *param);
+void	draw_menu(t_mlx *mlx);
 int		win_close(void *param);
 #endif

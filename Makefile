@@ -26,7 +26,8 @@ GREEN			:=	"\033[32m"
 # SRCS & OBJ
 
 SRCS			=	main.c\
-					keys.c
+					keys.c\
+					utils.c
 
 OBJ				=	$(addprefix $(OBJDIR),$(SRCS:.c=.o))
 
