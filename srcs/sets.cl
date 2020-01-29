@@ -65,7 +65,7 @@ __kernel void	julia_set(__global int *data, t_fractol f)
 
 	temp = get_global_id(0);
 	x = temp % WIDTH;
-	a = f.xmin;
+	a = f.xmin; // needs to be set based on temp
 	b = f.ymin;
 	iter = 0;
 	while (iter < f.iter)
