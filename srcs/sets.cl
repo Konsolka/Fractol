@@ -8,7 +8,7 @@ double		ft_map(double value, double start_range, double end_range,
 				(new_range_end - new_range_start) + new_range_start);
 }
 
-__kernel void mandelbrot_set(__global long *data, t_fractol f)
+__kernel void mandelbrot_set(__global int *data, t_fractol f)
 {
 	int			iter;
 	long		color;
@@ -28,21 +28,20 @@ __kernel void mandelbrot_set(__global long *data, t_fractol f)
 	y = temp / HIEGHT;
 	a = (ft_map(x, 0, WIDTH, f.xmin, f.xmax) + f.xmove) / f.zoom;
 	b = (ft_map(y, 0, HIEGHT, f.ymin, f.ymax) + f.ymove) / f.zoom;
+	ca = a;
+	cb = b;
 	iter = 0;
 	while (iter < f.iter)
 	{
-		ca = a;
-		cb = b;
-		aa = a * a;
-		bb = b * b;
-		if (aa + bb > 4.0)
+		aa = a * a - b * b;
+		bb = 2 * a * b;
+		if (a * a + b * b > 4.0)
 			break ;
-		twoab = 2.0 * a * b;
-		a = aa - bb + ca;
-		b = twoab + cb;
+		a = aa + ca;
+		b = bb + cb;
 		iter++;
 	}
-	color = ft_map(iter, 0, f.iter, 0, 255);
+	color = (long)(ft_map(iter, 0, f.iter, 0, 255));
 	if (iter == f.iter)
 		color = COLOR_WHITE;
 	data[temp] = color;

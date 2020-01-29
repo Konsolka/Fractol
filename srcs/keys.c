@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 12:44:38 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 14:40:10 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ int		mouse_press(int button, int x, int y, void *param)
 
 int		key_parce(int key, void *param)
 {
-	// t_mlx	*mlx;
+	t_mlx	*mlx;
 
-	// mlx = (t_mlx *)param;
-	// if (key == MAIN_PAD_ESC)
-	// 	win_close(mlx);
+	mlx = (t_mlx *)param;
+	if (key == MAIN_PAD_ESC)
+		win_close(mlx);
 	// else if (key == ARROW_UP)
-	// 		mlx->iter++;
+	// 		mlx->f->iter++;
 	// else if (key == ARROW_DOWN)
 	// {
-	// 	if (mlx->iter > 2)
-	// 		mlx->iter--;
+	// 	if (mlx->f->iter > 2)
+	// 		mlx->f->iter--;
 	// }
 	// else if (key == 15)
 	// {
@@ -107,8 +107,6 @@ int		win_close(void *param)
 	mlx = (t_mlx *)param;
 	mlx_clear_window(mlx->ptr, mlx->win);
 	mlx_destroy_window(mlx->ptr, mlx->win);
-	mlx->cl->ret = clFlush(mlx->cl->command_queue);
-    mlx->cl->ret = clFinish(mlx->cl->command_queue);
     mlx->cl->ret = clReleaseKernel(mlx->cl->kernel);
     mlx->cl->ret = clReleaseProgram(mlx->cl->program);
     mlx->cl->ret = clReleaseMemObject(mlx->cl->mem_obj);
