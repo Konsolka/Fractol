@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/28 15:23:06 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 12:45:32 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,59 @@
 
 # define VIS_H
 
+# ifdef __APPLE__
+#  include <OpenCL/opencl.h>
+# else
+#  include <CL/cl.h>
+# endif
+
 # define MAX_SOURCE_SIZE (0x100000)
-# define HIEGHT 1000
-# define WIDTH 1000
-# define TITLE "Fract'ol by mburl"
-# define COLOR_WHITE		0xFFFFFF
-# define COLOR_RED			0xFF0000
-# define COLOR_AL_RED		0xFFA500
-# define COLOR_BLUE			0x0000FF
-# define COLOR_AL_BLUE		0x00FFFF
-# define COLOR_OLIVE		0xC0C0C0
-# define COLOR_AL_GRAY		0x505050
-# define COLOR_BLACK		0x000000
-# define COLOR_YELLOW		0xFFFF00
+
+typedef struct			s_opcl
+{
+    char				*source_str;
+	cl_device_id		device_id;
+	cl_command_queue	command_queue;
+	cl_context			context;
+	cl_program			program;
+	cl_kernel			kernel;
+	cl_mem				mem_obj;
+	cl_platform_id		platform_id; 
+	cl_uint				ret_num_devices;
+	cl_uint				ret_num_platforms;
+    size_t				source_size;
+	size_t				global_s;
+	size_t				local_s;
+	cl_int				ret;
+	size_t				log_size;
+}						t_opcl;
+
+typedef struct	s_fractol
+{
+	int		iter;
+	double	xmin;
+	double	ymin;
+	double	xmax;
+	double	ymax;
+	double	zoom;
+	double	x;
+	double	y;
+	double	dx;
+	double	dy;
+	int		i;
+	int		j;
+	double	aa;
+	double	bb;
+	double	a;
+	double	b;
+	double	ca;
+	double	cb;
+	double	xmouse;
+	double	ymouse;
+	double	xmove;
+	double	ymove;
+	double	twoab;
+}				t_fractol;
 
 typedef	struct	s_mlx
 {
@@ -37,32 +77,10 @@ typedef	struct	s_mlx
 	int					line_size;
 	int					ed;
 	char				*line;
-	int					iter;
-	double				xmin;
-	double				ymin;
-	double				xmax;
-	double				ymax;
-	double				xmouse;
-	double				ymouse;
-	double				zoom;
-	double				xmove;
-	double				ymove;
 	char				test;
-	double				x;
-	double				y;
-	double				dx;
-	double				dy;
-	int					i;
-	int					j;
-	double				aa;
-	double				bb;
-	double				a;
-	double				b;
-	double				ca;
-	double				cb;
-	double				twoab;
 	int long			*data;
-
+	t_opcl				*cl;
+	t_fractol			*f;
 }				t_mlx;
 
 void	image_put(t_mlx *mlx);

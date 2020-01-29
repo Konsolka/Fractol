@@ -1,5 +1,5 @@
-#include "visual.h"
 #include "cl_h.h"
+#include "window.h"
 
 double		ft_map(double value, double start_range, double end_range,
 					double new_range_start, double new_range_end)
@@ -8,10 +8,10 @@ double		ft_map(double value, double start_range, double end_range,
 				(new_range_end - new_range_start) + new_range_start);
 }
 
-__kernel void mandelbrot_set(__global t_mlx *mlx, __global int *data)
+__kernel void mandelbrot_set(__global long *data, t_fractol f)
 {
 	int			iter;
-	int long	color;
+	long		color;
 	int			temp;
 	double		x;
 	double		y;
@@ -22,16 +22,14 @@ __kernel void mandelbrot_set(__global t_mlx *mlx, __global int *data)
 	double		ca;
 	double		cb;
 	double		twoab;
-	
-	printf("OK");
+
 	temp = get_global_id(0);
-	printf("iter = %d\n", mlx->iter);
 	x = temp % WIDTH;
 	y = temp / HIEGHT;
-	a = (ft_map(x, 0, WIDTH, mlx->xmin, mlx->xmax) + mlx->xmove) / mlx->zoom;
-	b = (ft_map(y, 0, HIEGHT, mlx->ymin, mlx->ymax) + mlx->ymove) / mlx->zoom;
+	a = (ft_map(x, 0, WIDTH, f.xmin, f.xmax) + f.xmove) / f.zoom;
+	b = (ft_map(y, 0, HIEGHT, f.ymin, f.ymax) + f.ymove) / f.zoom;
 	iter = 0;
-	while (iter < mlx->iter)
+	while (iter < f.iter)
 	{
 		ca = a;
 		cb = b;
@@ -44,8 +42,8 @@ __kernel void mandelbrot_set(__global t_mlx *mlx, __global int *data)
 		b = twoab + cb;
 		iter++;
 	}
-	color = ft_map(iter, 0, mlx->iter, 0, 255);
-	if (iter == mlx->iter)
+	color = ft_map(iter, 0, f.iter, 0, 255);
+	if (iter == f.iter)
 		color = COLOR_WHITE;
 	data[temp] = color;
 }

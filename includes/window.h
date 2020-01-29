@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cl_h.h                                             :+:      :+:    :+:   */
+/*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 13:50:20 by mburl            ###   ########.fr       */
+/*   Created: 2020/01/29 12:35:38 by mburl             #+#    #+#             */
+/*   Updated: 2020/01/29 12:36:09 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CL_H_H
-# define CL_H_H
+#ifndef WINDOW_H
+# define WINDOW_H
 
-typedef struct	s_fractol
-{
-	int		iter;
-	double	xmin;
-	double	ymin;
-	double	xmax;
-	double	ymax;
-	double	zoom;
-	double	x;
-	double	y;
-	double	dx;
-	double	dy;
-	int		i;
-	int		j;
-	double	aa;
-	double	bb;
-	double	a;
-	double	b;
-	double	ca;
-	double	cb;
-	double	xmouse;
-	double	ymouse;
-	double	xmove;
-	double	ymove;
-	double	twoab;
-}				t_fractol;
+# define HIEGHT 1000
+# define WIDTH 1000
+# define TITLE "Fract'ol by mburl"
+# define COLOR_WHITE		0xFFFFFF
+# define COLOR_RED			0xFF0000
+# define COLOR_AL_RED		0xFFA500
+# define COLOR_BLUE			0x0000FF
+# define COLOR_AL_BLUE		0x00FFFF
+# define COLOR_OLIVE		0xC0C0C0
+# define COLOR_AL_GRAY		0x505050
+# define COLOR_BLACK		0x000000
+# define COLOR_YELLOW		0xFFFF00
 
 #endif
