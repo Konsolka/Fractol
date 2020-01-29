@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 13:50:20 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 18:49:01 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 typedef struct	s_fractol
 {
 	int		iter;
+	int		i;
+	int		j;
 	double	xmin;
 	double	ymin;
 	double	xmax;
@@ -25,8 +27,6 @@ typedef struct	s_fractol
 	double	y;
 	double	dx;
 	double	dy;
-	int		i;
-	int		j;
 	double	aa;
 	double	bb;
 	double	a;

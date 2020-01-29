@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 17:53:58 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 18:59:06 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	mandelbrot_init(t_mlx *mlx)
 		fprintf(stdout, "clGetKernelWorkGroupInfo Success\n");
 
 
-	mlx->cl->local_s = 64;
+	// mlx->cl->local_s = 64;
 
 
 	ret = clEnqueueNDRangeKernel(mlx->cl->command_queue, mlx->cl->kernel, 1, NULL,
@@ -93,7 +93,7 @@ void	image_put(t_mlx *mlx)
 	mlx_destroy_image(mlx->ptr, mlx->img);
 }
 
-void	cl_init(t_opcl *cl)
+void	cl_init(t_opcl *cl, int set)
 {
 	FILE	*fd;
 	// Load the kernel source code into the array source_str
@@ -143,7 +143,10 @@ void	cl_init(t_opcl *cl)
 	}
 
     // Create the OpenCL kernel
-    cl->kernel = clCreateKernel(cl->program, "mandelbrot_set", &cl->ret);
+	if (set == 1)
+    	cl->kernel = clCreateKernel(cl->program, "mandelbrot_set", &cl->ret);
+	else if (set == 2)
+		cl->kernel = clCreateKernel(cl->program, "julia_set", &cl->ret);
 	if (cl->ret == CL_SUCCESS)
 		fprintf(stdout, "clCreateKernel Success\n");
 	cl->global_s = WIDTH * HIEGHT;
@@ -155,10 +158,11 @@ void	fractol_init(t_fractol *f)
 	f->zoom = 1;
 	f->dx = 1.0;
 	f->dy = 1.0;
-	f->y = 0;
 	f->j = 0;
 	f->xmin = -2.5;
 	f->ymin = -2.5;
+	f->x = f->xmin;
+	f->y = f->ymin;
 	f->xmax = 2.5;
 	f->ymax = 2.5;
 	f->xmouse = 200;
@@ -167,14 +171,14 @@ void	fractol_init(t_fractol *f)
 	f->ymove = 0;
 }
 
-void	draw(void)
+void	draw(int set)
 {
 
 	t_mlx	mlx;
 
 	mlx.cl = ft_memalloc(sizeof(t_opcl));
 	mlx.f = ft_memalloc(sizeof(t_fractol));
-	cl_init(mlx.cl);
+	cl_init(mlx.cl, set);
 	fractol_init(mlx.f);
 	mlx.ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.ptr, WIDTH, HIEGHT, TITLE);
@@ -187,8 +191,10 @@ void	draw(void)
 	mlx_loop(mlx.ptr);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
-	draw();
+	if (ac != 2)
+		ft_putstr_err("Usage: 1: Mandelbrot\n\t2: Julia");
+	draw(ft_atoi(av[1]));
 	return (0);
 }
