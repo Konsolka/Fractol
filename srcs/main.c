@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 15:16:48 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 16:41:22 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,6 @@ void	mandelbrot_init(t_mlx *mlx)
 			&mlx->cl->global_s, &mlx->cl->local_s, 0, NULL, NULL);
 	if (ret == CL_SUCCESS)
 		fprintf(stdout, "clEnqueueNDRangeKernel Succsess\n");		
-	else if (ret == CL_INVALID_PROGRAM_EXECUTABLE)
-		fprintf(stderr, "CL_INVALID_PROGRAM_EXECUTABLE\n");
-	else if (ret == CL_INVALID_COMMAND_QUEUE)
-		fprintf(stderr, "CL_INVALID_COMMAND_QUEUE\n");
-	else if (ret == CL_INVALID_KERNEL)
-		fprintf(stderr, "CL_INVALID_KERNEL\n");
-	else if (ret == CL_INVALID_CONTEXT)
-		fprintf(stderr, "CL_INVALID_CONTEXT\n");
-	else if (ret == CL_INVALID_KERNEL_ARGS)
-		fprintf(stderr, "CL_INVALID_KERNEL_ARGS\n");
-	else if (ret == CL_INVALID_WORK_DIMENSION)
-		fprintf(stderr, "CL_INVALID_WORK_DIMENSION\n");
-	else if (ret == CL_INVALID_WORK_GROUP_SIZE)
-		fprintf(stderr, "CL_INVALID_WORK_GROUP_SIZE\n");
-	else if (ret == CL_INVALID_WORK_GROUP_SIZE)
-		fprintf(stderr, "CL_INVALID_WORK_GROUP_SIZE\n");
-	else if (ret == CL_INVALID_WORK_GROUP_SIZE)
-		fprintf(stderr, "CL_INVALID_WORK_GROUP_SIZE\n");
-	else if (ret == CL_INVALID_WORK_ITEM_SIZE)
-		fprintf(stderr, "CL_INVALID_WORK_ITEM_SIZE\n");
-	else if (ret == CL_INVALID_GLOBAL_OFFSET)
-		fprintf(stderr, "CL_INVALID_GLOBAL_OFFSET\n");
-	else if (ret == CL_MEM_OBJECT_ALLOCATION_FAILURE)
-		fprintf(stderr, "CL_MEM_OBJECT_ALLOCATION_FAILURE\n");
-	else if (ret == CL_OUT_OF_RESOURCES)
-		fprintf(stderr, "CL_OUT_OF_RESOURCES\n");
-	else if (ret == CL_INVALID_EVENT_WAIT_LIST)
-		fprintf(stderr, "CL_INVALID_EVENT_WAIT_LIST	\n");
-	else if (ret == CL_OUT_OF_HOST_MEMORY)
-		fprintf(stderr, "CL_OUT_OF_HOST_MEMORY\n");
 	// a = x;
 	// b = y;
 }
@@ -98,38 +68,15 @@ void	image_put(t_mlx *mlx)
 {
 	char		*line;
 	char		*num;
-	long		*data;
 	
-
-	size_t	local_item_size;
-
-	local_item_size = 0;
+	mlx->img = (int *)mlx_new_image(mlx->ptr, WIDTH, HIEGHT);
+	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_size, &mlx->ed);
 	mandelbrot_init(mlx);
-	data = ft_memalloc(sizeof(long) * WIDTH * HIEGHT);
-	ft_bzero(data, sizeof(long) * HIEGHT * WIDTH);
-	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue, mlx->cl->mem_obj, CL_TRUE, 0, sizeof(long) * WIDTH * HIEGHT,
-			data, 0, NULL, NULL);
+	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue, mlx->cl->mem_obj, CL_TRUE, 0, sizeof(int) * WIDTH * HIEGHT,
+			mlx->line, 0, NULL, NULL);
 	if (mlx->cl->ret == CL_SUCCESS)
 		fprintf(stdout, "clEnqueueReadBuffer Success\n");
-	int	temp;
-	int		i;
-	int 	x;
-	int		y;
 
-	i = 0;
-	while (i < WIDTH * HIEGHT)
-	{
-		x = i % WIDTH;
-		y = i / HIEGHT;
-		if (data[i] > 0)
-			printf("%lu\t", data[i]);
-		temp = (x * mlx->bpp / 8) + (y * mlx->line_size);
-		mlx->line[temp] = data[i];
-		mlx->line[++temp] = data[i] >> 8;
-		mlx->line[++temp] = data[i] >> 16;
-		i++;
-	}
-	// data_to_mlx(mlx, &data);
 	mlx->cl->ret = clFlush(mlx->cl->command_queue);
     mlx->cl->ret = clFinish(mlx->cl->command_queue);
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
@@ -169,7 +116,7 @@ void	cl_init(t_opcl *cl)
 	cl->command_queue = clCreateCommandQueue(cl->context, cl->device_id, 0, &cl->ret);
     // Create memory buffers on the device for each vector 
 	cl->mem_obj = clCreateBuffer(cl->context, CL_MEM_READ_ONLY,
-			sizeof(long) * WIDTH * HIEGHT, NULL, &cl->ret);
+			sizeof(int) * WIDTH * HIEGHT, NULL, &cl->ret);
 	if (cl->ret == CL_SUCCESS)
 		fprintf(stdout, "clCreateBuffer Succsess\n");
 	
@@ -201,9 +148,6 @@ void	cl_init(t_opcl *cl)
 
 void	fractol_init(t_fractol *f)
 {
-	double	w;
-	double	h;
-
 	f->iter = 10;
 	f->zoom = 1;
 	f->dx = 1.0;
@@ -212,8 +156,8 @@ void	fractol_init(t_fractol *f)
 	f->j = 0;
 	f->xmin = -2.5;
 	f->ymin = -2.5;
-	f->xmax = f->xmin + 5;
-	f->ymax = f->ymin + 5;
+	f->xmax = 2.5;
+	f->ymax = 2.5;
 	f->xmouse = 200;
 	f->ymouse = 200;
 	f->xmove = 0;
@@ -231,8 +175,7 @@ void	draw(void)
 	fractol_init(mlx.f);
 	mlx.ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.ptr, WIDTH, HIEGHT, TITLE);
-	mlx.img = mlx_new_image(mlx.ptr, WIDTH, HIEGHT);
-	mlx.line = mlx_get_data_addr(mlx.img, &mlx.bpp, &mlx.line_size, &mlx.ed);
+
 	image_put(&mlx);
 	mlx_hook(mlx.win, 4, 0, mouse_press, &mlx);
 	mlx_hook(mlx.win, 2, 0, key_parce, &mlx);

@@ -28,8 +28,6 @@ GREEN			:=	"\033[32m"
 SRCS			=	main.c\
 					keys.c
 
-SRCS_CL			=	sets.cl
-
 OBJ				=	$(addprefix $(OBJDIR),$(SRCS:.c=.o))
 
 # HEADERS
@@ -73,12 +71,10 @@ $(OBJDIR)%.o:$(SRC_DIR)%.c $(HEADERS)
 	@echo $(WAVE) " - Compiling $<  ->  $@" $(EOC)
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
-$(SRCS_CL): $(OBJ)
-
 $(LIBFT):
 	@make -C $(LIBFT_DIRECTORY)
 
-$(NAME): $(LIBFT) $(OBJDIR) $(OBJ) $(SRCS_CL)
+$(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
 	@echo $(GREEN) " - Compiling $@" $(EOC)
 	@$(CC) $(OBJ) $(MLX_LINK) $(LIBFT_LINK) -o $@
 

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 14:40:10 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/29 16:50:24 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,28 @@ int		mouse_move(int x, int y, void *param)
 
 int		mouse_press(int button, int x, int y, void *param)
 {
-	// t_mlx	*mlx;
+	t_mlx	*mlx;
 
-	// mlx = (t_mlx *)param;
-	// printf("x = %d | y = %d\nmap_x = %f | map_y = %f\n", x, y, ft_map(x, 0, WIDTH, -0.1, 0.1), ft_map(y, 0, HIEGHT, -0.1, 0.1));
-	// if (button == MOUSE_SCROLL_DOWN)
-	// {
-	// 	mlx->zoom += 0.1;
-	// 	mlx->xmove += ft_map(x, 0, WIDTH, -0.1, 0.1);
-	// 	mlx->ymove += ft_map(y, 0, HIEGHT, -0.1, 0.1);
-	// }
-	// else if (button == MOUSE_SCROLL_UP)
-	// {
-	// 	mlx->zoom -= 0.1;
-	// 	mlx->xmove -= ft_map(x, 0, WIDTH, -0.1, 0.1);
-	// 	mlx->ymove -= ft_map(y, 0, HIEGHT, -0.1, 0.1);
-	// }
+	mlx = (t_mlx *)param;
+	printf("x = %d | y = %d\nmap_x = %f | map_y = %f\n", x, y, ft_map(x, 0, WIDTH, -0.1, 0.1), ft_map(y, 0, HIEGHT, -0.1, 0.1));
+	if (button == MOUSE_SCROLL_DOWN)
+	{
+		mlx->f->zoom *= 1.2;
+		mlx->f->xmove += ft_map(x, 0, WIDTH, -0.4, 0.4);
+		mlx->f->ymove += ft_map(y, 0, HIEGHT, -0.4, 0.4);
+	}
+	else if (button == MOUSE_SCROLL_UP)
+	{
+		if (mlx->f->zoom - 0.5 > 0)
+		{
+			mlx->f->zoom *= 0.8;
+			mlx->f->xmove += ft_map(x, 0, WIDTH, -0.4, 0.4);
+			mlx->f->ymove += ft_map(y, 0, HIEGHT, -0.4, 0.4);
+		}
+	}
 	// else if (button == MOUSE_LEFT_BUTTON)
 	// 	mlx_hook(mlx->win, 6, 0, mouse_move, mlx);
-	// image_put(mlx);
+	image_put(mlx);
 	return (0);
 }
 
@@ -82,21 +85,21 @@ int		key_parce(int key, void *param)
 	mlx = (t_mlx *)param;
 	if (key == MAIN_PAD_ESC)
 		win_close(mlx);
-	// else if (key == ARROW_UP)
-	// 		mlx->f->iter++;
-	// else if (key == ARROW_DOWN)
-	// {
-	// 	if (mlx->f->iter > 2)
-	// 		mlx->f->iter--;
-	// }
-	// else if (key == 15)
-	// {
-	// 	mlx->xmove = 0;
-	// 	mlx->ymove = 0;
-	// 	mlx->zoom = 1;
-	// 	mlx->iter = 10;
-	// }
-	// image_put(mlx);
+	else if (key == ARROW_UP)
+			mlx->f->iter++;
+	else if (key == ARROW_DOWN)
+	{
+		if (mlx->f->iter > 2)
+			mlx->f->iter--;
+	}
+	else if (key == 15)
+	{
+		mlx->f->xmove = 0;
+		mlx->f->ymove = 0;
+		mlx->f->zoom = 1;
+		mlx->f->iter = 10;
+	}
+	image_put(mlx);
 	return (0);
 }
 

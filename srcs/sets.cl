@@ -33,15 +33,16 @@ __kernel void mandelbrot_set(__global int *data, t_fractol f)
 	iter = 0;
 	while (iter < f.iter)
 	{
-		aa = a * a - b * b;
-		bb = 2 * a * b;
-		if (a * a + b * b > 4.0)
+		aa = a * a;
+		bb = b * b;
+		twoab = 2 * a * b;
+		if (aa + bb > 16.0)
 			break ;
-		a = aa + ca;
-		b = bb + cb;
+		a = aa - bb + ca;
+		b = twoab + cb;
 		iter++;
 	}
-	color = (long)(ft_map(iter, 0, f.iter, 0, 255));
+	color = ft_map(iter, 0, f.iter, 0, 255);
 	if (iter == f.iter)
 		color = COLOR_WHITE;
 	data[temp] = color;
