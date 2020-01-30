@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 18:48:52 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/30 11:29:55 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,5 @@ int		mouse_move_void(int x, int y, void *param);
 int		mouse_press(int button, int x, int y, void *param);
 void	draw_menu(t_mlx *mlx);
 int		win_close(void *param);
+void	terminate(char *string, cl_int ret);
 #endif

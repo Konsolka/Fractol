@@ -6,15 +6,15 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 12:35:38 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 12:36:09 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/30 11:24:25 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDOW_H
 # define WINDOW_H
 
-# define HIEGHT 1000
-# define WIDTH 1000
+# define HIEGHT 1500
+# define WIDTH 1500
 # define TITLE "Fract'ol by mburl"
 # define COLOR_WHITE		0xFFFFFF
 # define COLOR_RED			0xFF0000

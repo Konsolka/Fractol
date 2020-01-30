@@ -64,17 +64,22 @@ __kernel void	julia_set(__global int *data, t_fractol f)
 	double		twoab;
 
 	temp = get_global_id(0);
+	// ca = ft_map(f.xmouse, 0, WIDTH, -2.5, 2.5);
+	// cb = ft_map(f.ymouse, 0, HIEGHT, -2.5, 2.5);
+	ca = ft_map(f.xmouse, 0, WIDTH, f.xmin, f.xmax);
+	cb = ft_map(f.ymouse, 0, HIEGHT, f.ymin, f.ymax);
 	x = temp % WIDTH;
-	a = f.xmin; // needs to be set based on temp
-	b = f.ymin;
+	y = temp / HIEGHT;
+	a = f.xmin + f.dx * x;
+	b = f.ymin + f.dy * y;
 	iter = 0;
 	while (iter < f.iter)
 	{
 		aa = a * a;
 		bb = b * b;
-		twoab = 2 * a * b;
 		if (aa + bb > 4.0)
 			break ;
+		twoab = 2 * a * b;
 		a = aa - bb + ca;
 		b = twoab + cb;
 		iter++;
@@ -82,11 +87,5 @@ __kernel void	julia_set(__global int *data, t_fractol f)
 	color = ft_map(iter, 0, f.iter, 0, 255);
 	if (iter == f.iter)
 		color = COLOR_WHITE;
-	a += f.dx;
-	if (x >= (double)(WIDTH - 1))
-	{
-		b += f.dy;
-		a = f.xmin;
-	}
 	data[temp] = color;
 }

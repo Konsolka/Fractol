@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 18:32:13 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/30 11:05:59 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,27 @@ int		mouse_move_void(int x, int y, void *param)
 
 int		mouse_release(int button, int x, int y, void *param)
 {
-	// t_mlx	*mlx;
+	t_mlx	*mlx;
 
-	// if (button == MOUSE_LEFT_BUTTON)
-	// {
-	// 	mlx = (t_mlx *)param;
-	// 	mlx->xmouse = x;
-	// 	mlx->ymouse = y;
-	// 	image_put(mlx);
-	// 	mlx_hook(mlx->win, 6, 0, mouse_move_void, mlx);
-	// }
+	if (button == MOUSE_LEFT_BUTTON)
+	{
+		mlx = (t_mlx *)param;
+		mlx->f->xmouse = x;
+		mlx->f->ymouse = y;
+		image_put(mlx);
+		mlx_hook(mlx->win, 6, 0, mouse_move_void, mlx);
+	}
 	return (0);
 }
 
 int		mouse_move(int x, int y, void *param)
 {
-	// t_mlx	*mlx;
+	t_mlx	*mlx;
 
-	// mlx = (t_mlx *)param;
-	// mlx->xmouse = x;
-	// mlx->ymouse = y;
-	// image_put(mlx);
+	mlx = (t_mlx *)param;
+	mlx->f->xmouse = x;
+	mlx->f->ymouse = y;
+	image_put(mlx);
 	return (0);
 }
 
@@ -74,8 +74,8 @@ int		mouse_press(int button, int x, int y, void *param)
 			mlx->f->ymove += ft_map(x, 0, HIEGHT, mlx->f->ymin, mlx->f->ymax);
 		}
 	}
-	// else if (button == MOUSE_LEFT_BUTTON)
-	// 	mlx_hook(mlx->win, 6, 0, mouse_move, mlx);
+	else if (button == MOUSE_LEFT_BUTTON)
+		mlx_hook(mlx->win, 6, 0, mouse_move, mlx);
 	image_put(mlx);
 	return (0);
 }

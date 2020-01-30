@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 18:59:06 by mburl            ###   ########.fr       */
+/*   Updated: 2020/01/30 11:43:03 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,20 @@ void	mandelbrot_init(t_mlx *mlx)
 {
 	cl_int	ret;
 
-
-	// dx = (mlx->xmax - mlx->xmin) / WIDTH;
-	// dy = (mlx->ymax - mlx->ymin) / HIEGHT;
-	// ca = ft_map(mlx->xmouse, 0, WIDTH, -1, 1);
-	// cb = ft_map(mlx->ymouse, 0, HIEGHT, -1, 1);
-	// y = mlx->ymin;
-
 	ret = clSetKernelArg(mlx->cl->kernel, 0, sizeof(cl_mem), (void *)&mlx->cl->mem_obj);
 	if (ret == CL_SUCCESS)
 		fprintf(stdout, "clSetKernelArg Success\n");
 	ret = clSetKernelArg(mlx->cl->kernel, 1, sizeof(t_fractol), mlx->f);
-	if (ret == CL_SUCCESS)
-		fprintf(stdout, "clSetKernelArg Success\n");
-
-
+	terminate("clSetKernelArg", ret);
 	ret = clGetKernelWorkGroupInfo(mlx->cl->kernel, mlx->cl->device_id, CL_KERNEL_WORK_GROUP_SIZE,
 									sizeof(mlx->cl->local_s), &mlx->cl->local_s, NULL);
-	if (ret == CL_SUCCESS)
-		fprintf(stdout, "clGetKernelWorkGroupInfo Success\n");
+	terminate("clGetKernelWorkGroupInfo", ret);
 
-
-	// mlx->cl->local_s = 64;
-
+	mlx->cl->local_s = 64;
 
 	ret = clEnqueueNDRangeKernel(mlx->cl->command_queue, mlx->cl->kernel, 1, NULL,
 			&mlx->cl->global_s, &mlx->cl->local_s, 0, NULL, NULL);
-	if (ret == CL_SUCCESS)
-		fprintf(stdout, "clEnqueueNDRangeKernel Succsess\n");		
+	terminate("clEnqueueNDRangeKernel", ret);
 	// a = x;
 	// b = y;
 }
@@ -74,9 +60,7 @@ void	image_put(t_mlx *mlx)
 	mandelbrot_init(mlx);
 	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue, mlx->cl->mem_obj, CL_TRUE, 0, sizeof(int) * WIDTH * HIEGHT,
 			mlx->line, 0, NULL, NULL);
-	if (mlx->cl->ret == CL_SUCCESS)
-		fprintf(stdout, "clEnqueueReadBuffer Success\n");
-
+	terminate("clEnqueueReadBuffer", ret);
 	mlx->cl->ret = clFlush(mlx->cl->command_queue);
     mlx->cl->ret = clFinish(mlx->cl->command_queue);
 	if (mlx->menu)
@@ -156,8 +140,6 @@ void	fractol_init(t_fractol *f)
 {
 	f->iter = 10;
 	f->zoom = 1;
-	f->dx = 1.0;
-	f->dy = 1.0;
 	f->j = 0;
 	f->xmin = -2.5;
 	f->ymin = -2.5;
@@ -169,6 +151,8 @@ void	fractol_init(t_fractol *f)
 	f->ymouse = 200;
 	f->xmove = 0;
 	f->ymove = 0;
+	f->dx = (f->xmax - f->xmin) / WIDTH;
+	f->dy = (f->ymax - f->ymin) / HIEGHT;
 }
 
 void	draw(int set)
