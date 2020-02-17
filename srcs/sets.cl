@@ -2,7 +2,7 @@
 #include "window.h"
 
 double			ft_map(double value, double start_range, double end_range,
-					double new_range_start, double new_range_end)
+						double new_range_start, double new_range_end)
 {
 	return ((value - start_range) / (end_range - start_range) *
 				(new_range_end - new_range_start) + new_range_start);

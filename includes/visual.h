@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/30 11:29:55 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/17 14:38:57 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 typedef struct			s_opcl
 {
+	size_t				wgs;
     char				*source_str;
 	cl_device_id		device_id;
 	cl_command_queue	command_queue;
