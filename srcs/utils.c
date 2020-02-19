@@ -6,11 +6,12 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 18:12:20 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/19 17:01:05 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "cl_h.h"
 #include <mlx.h>
 #include "window.h"
 #include "key_code.h"

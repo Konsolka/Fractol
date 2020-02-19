@@ -6,12 +6,14 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/30 11:05:59 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/19 18:49:03 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <stdio.h>
+#include <unistd.h>
+#include "cl_h.h"
 #include "visual.h"
 #include "libft.h"
 #include "key_code.h"
@@ -56,7 +58,8 @@ int		mouse_press(int button, int x, int y, void *param)
 	t_mlx	*mlx;
 
 	mlx = (t_mlx *)param;
-	fprintf(stdout, "x = %d | y = %d\nmap_x = %f | map_y = %f\n", x, y, ft_map(x, 0, WIDTH, -0.1, 0.1), ft_map(y, 0, HIEGHT, -0.1, 0.1));
+	if (!mlx->ani)
+		return (0);
 	if (button == MOUSE_SCROLL_DOWN)
 	{
 		mlx->f->zoom *= 1.2;
@@ -83,6 +86,8 @@ int		mouse_press(int button, int x, int y, void *param)
 int		key_parce(int key, void *param)
 {
 	t_mlx	*mlx;
+	int		x;
+	int		y;
 
 	mlx = (t_mlx *)param;
 	if (key == MAIN_PAD_ESC)
@@ -98,6 +103,7 @@ int		key_parce(int key, void *param)
 	{
 		mlx->f->xmove = 0;
 		mlx->f->ymove = 0;
+		mlx->f->color = 3;
 		mlx->f->zoom = 1;
 		mlx->f->iter = 10;
 	}
@@ -105,6 +111,8 @@ int		key_parce(int key, void *param)
 		mlx->menu = 1;
 	else if (key == 4 && mlx->menu)
 		mlx->menu = 0;
+	else if (18 <= key && key <= 29)
+		mlx->f->color = key - 17;
 	image_put(mlx);
 	return (0);
 }

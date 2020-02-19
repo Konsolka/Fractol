@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/17 14:38:57 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/19 18:14:30 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #  include <CL/cl.h>
 # endif
 
+# include "cl_h.h"
 # define MAX_SOURCE_SIZE (0x100000)
 
 typedef struct			s_opcl
@@ -42,33 +43,6 @@ typedef struct			s_opcl
 	size_t				log_size;
 }						t_opcl;
 
-typedef struct	s_fractol
-{
-	int		iter;
-	int		i;
-	int		j;
-	double	xmin;
-	double	ymin;
-	double	xmax;
-	double	ymax;
-	double	zoom;
-	double	x;
-	double	y;
-	double	dx;
-	double	dy;
-	double	aa;
-	double	bb;
-	double	a;
-	double	b;
-	double	ca;
-	double	cb;
-	double	xmouse;
-	double	ymouse;
-	double	xmove;
-	double	ymove;
-	double	twoab;
-}				t_fractol;
-
 typedef struct	s_point
 {
 	int		x;
@@ -78,6 +52,7 @@ typedef struct	s_point
 typedef	struct	s_mlx
 {
 	void		*ptr;
+	int			ani;
 	void		*win;
 	void		*img;
 	int			bpp;

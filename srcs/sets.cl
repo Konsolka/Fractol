@@ -8,10 +8,65 @@ double			ft_map(double value, double start_range, double end_range,
 				(new_range_end - new_range_start) + new_range_start);
 }
 
-__kernel void	mandelbrot_set(__global int *data, t_fractol f)
+int set_colors(unsigned char o, unsigned char red, \
+				unsigned char green, unsigned char blue)
+{
+	int i;
+	int tmp;
+	int res;
+	int j;
+
+	i = 0;
+	res = 0;
+	tmp = 0;
+	j = 0;
+	while (i <= 31)
+	{
+		tmp = (i >= 0 && i <= 7) ? blue : tmp;
+		tmp = (i >= 8 && i <= 15) ? green : tmp;
+		tmp = (i >= 16 && i <= 23) ? red : tmp;
+		tmp = (i >= 24 && i <= 31) ? o : tmp;
+		j = 0;
+		while (j <= 7)
+		{
+			if (tmp & (1 << j))
+			res |= 1 << i;
+			++i;
+			++j;
+		}
+	}
+	return (res);
+}
+
+int		choose_color(int i, int max, char color)
+{
+	int			red;
+	int			blue;
+	int			green;
+	double		n;
+
+	n = (double)i / (double)max;
+	red = (int)(9 * (1 - n) * (n * n * n) * 255);
+	green = (int)(15 * ((1 - n) * (1 - n)) * (n * n) * 255);
+	blue = (int)(8.5 * ((1 - n) * (1 - n) * (1 - n)) * n * 255);
+	if (1 == color)
+		return (set_colors(0, red, green, blue));
+	else if (color == 2)
+		return (set_colors(0, blue, green, red));
+	else if (color == 3)
+		return (set_colors(0, blue, red, green));
+	else if (color == 4)
+	 	return (set_colors(0, red, blue, green));
+	else if (color == 5)
+	 	return (set_colors(0, green, blue, red));
+	else if (color == 6)
+	 	return (set_colors(0, green, red, blue));
+	return (0);
+}
+
+__kernel void	mandelbrot_set(__global int *data, t_fractol f, int color)
 {
 	int			iter;
-	long		color;
 	int			temp;
 	double		x;
 	double		y;
@@ -42,16 +97,15 @@ __kernel void	mandelbrot_set(__global int *data, t_fractol f)
 		b = twoab + cb;
 		iter++;
 	}
-	color = ft_map(iter, 0, f.iter, 0, 255);
-	if (iter == f.iter)
-		color = COLOR_WHITE;
-	data[temp] = color;
+	if (iter < f.iter)
+ 		data[temp] = choose_color(iter, f.iter, color);
+ 	else
+        data[temp] = 0;
 }
 
-__kernel void	julia_set(__global int *data, t_fractol f)
+__kernel void	julia_set(__global int *data, t_fractol f, int color)
 {
 	int			iter;
-	long		color;
 	int			temp;
 	double		x;
 	double		y;
@@ -84,8 +138,8 @@ __kernel void	julia_set(__global int *data, t_fractol f)
 		b = twoab + cb;
 		iter++;
 	}
-	color = ft_map(iter, 0, f.iter, 0, 255);
-	if (iter == f.iter)
-		color = COLOR_WHITE;
-	data[temp] = color;
+	if (iter < f.iter)
+ 		data[temp] = choose_color(iter, f.iter, color);
+ 	else
+        data[temp] = 0;
 }

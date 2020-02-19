@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/17 15:32:07 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/19 18:42:00 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <mlx.h>
 #include "libft.h"
 #include "visual.h"
+#include "cl_h.h"
 #include "key_code.h"
 #include "window.h"
 #include <stdio.h>
@@ -35,6 +36,8 @@ void	mandelbrot_init(t_mlx *mlx)
 	terminate("clSetKernelArg_0", ret);
 	ret = clSetKernelArg(mlx->cl->kernel, 1, sizeof(t_fractol), (void *)mlx->f);
 	terminate("clSetKernelArg_1", ret);
+	ret = clSetKernelArg(mlx->cl->kernel, 2, sizeof(char), (void *)&mlx->f->color);
+	terminate("clSetKernelArg_2", ret);
 	ret = clGetKernelWorkGroupInfo(mlx->cl->kernel, mlx->cl->device_id, CL_KERNEL_WORK_GROUP_SIZE,
 									sizeof(size_t), &mlx->cl->local_s, 0);
 	terminate("clGetKernelWorkGroupInfo", ret);
@@ -50,6 +53,7 @@ void	image_put(t_mlx *mlx)
 {
 	char		*line;
 	char		*num;
+	char		*temp;
 
 	mlx->img = (int *)mlx_new_image(mlx->ptr, WIDTH, HIEGHT);
 	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_size, &mlx->ed);
@@ -66,7 +70,9 @@ void	image_put(t_mlx *mlx)
 		draw_menu_strings(mlx);
 	line = ft_strdup("Iterations = ");
 	num = ft_itoa(mlx->f->iter);
-	line = ft_strcat(line, num);
+	temp = ft_strdup(line);
+	line = ft_strjoin(temp, num);
+	ft_strdel(&temp);
 	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_WHITE, line);
 	ft_strdel(&line);
 	ft_strdel(&num);
@@ -154,6 +160,7 @@ void	cl_init(t_opcl *cl, int set)
 void	fractol_init(t_fractol *f)
 {
 	f->iter = 10;
+	f->color = 1;
 	f->zoom = 1;
 	f->j = 0;
 	f->xmin = -2.5;
@@ -177,6 +184,7 @@ void	draw(int set)
 
 	mlx.cl = ft_memalloc(sizeof(t_opcl));
 	mlx.f = ft_memalloc(sizeof(t_fractol));
+	mlx.ani = 0;
 	cl_init(mlx.cl, set);
 	fractol_init(mlx.f);
 	mlx.ptr = mlx_init();

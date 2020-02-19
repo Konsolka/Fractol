@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
-/*   Updated: 2020/01/29 18:49:01 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/19 16:59:55 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef struct	s_fractol
 {
+	char	color;
 	int		iter;
 	int		i;
 	int		j;
