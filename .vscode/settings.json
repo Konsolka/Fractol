@@ -19,6 +19,7 @@
 		"hashtable": "c",
 		"stdio.h": "c",
 		"libft.h": "c",
-		"cl_h.h": "c"
+		"cl_h.h": "c",
+		"keys.h": "c"
 	}
 }

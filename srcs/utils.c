@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 13:47:34 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:32:56 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cl_h.h"
 #include <mlx.h>
 #include "window.h"
-#include "key_code.h"
+#include "keys.h"
 #include "visual.h"
 
 void		draw_square(t_point coords, t_point size, t_mlx *mlx, int color)
@@ -31,6 +31,8 @@ void		draw_square(t_point coords, t_point size, t_mlx *mlx, int color)
 		{
 			temp = (i * mlx->bpp / 8) + (j * mlx->line_size);
 			mlx->line[temp] = color;
+			mlx->line[temp] = color >> 8;
+			mlx->line[temp] = color >> 16;
 			j++;
 		}
 		i++;
@@ -74,5 +76,5 @@ void	draw_menu(t_mlx *mlx)
 	point.y = 5;
 	size.x -= point.x * 2;
 	size.y -= point.y * 2;
-	draw_square(point, size, mlx, COLOR_BLACK);
+	draw_square(point, size, mlx, 0x222222);
 }

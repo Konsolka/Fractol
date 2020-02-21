@@ -35,7 +35,7 @@ OBJ				=	$(addprefix $(OBJDIR),$(SRCS:.c=.o))
 # HEADERS
 
 HEADER_LIST		=	visual.h\
-					key_code.h\
+					keys.h\
 					window.h\
 					cl_h.h
 

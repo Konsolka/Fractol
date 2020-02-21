@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 15:00:35 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:51:51 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "cl_h.h"
 #include "visual.h"
 #include "libft.h"
-#include "key_code.h"
+#include "keys.h"
 #include "window.h"
 
 int		mouse_move_void(int x, int y, void *param)
@@ -91,11 +91,11 @@ int		key_parce(int key, void *param)
 	if (key == MAIN_PAD_ESC)
 		win_close(mlx);
 	else if (key == ARROW_UP)
-			mlx->f->iter++;
+			mlx->f->iter += 10;
 	else if (key == ARROW_DOWN)
 	{
 		if (mlx->f->iter > 2)
-			mlx->f->iter--;
+			mlx->f->iter -= 10;
 	}
 	else if (key == 15)
 		fractol_init(mlx->f);
@@ -103,9 +103,27 @@ int		key_parce(int key, void *param)
 		mlx->menu = 1;
 	else if (key == 4 && mlx->menu)
 		mlx->menu = 0;
-	else if (18 <= key && key <= 29)
+	else if (18 <= key && key <= 23)
 		mlx->f->color = key - 17;
-	image_put(mlx);
+	else if (key == 35 || key == 45)
+	{
+		mlx->change = 1;
+		mlx->set += (key == 35) ? 1 : -1;
+		if (mlx->set > 2)
+			mlx->set = 1;
+		else if (mlx->set < 1)
+			mlx->set = 2;
+		re_draw(mlx->set, mlx);
+	}
+	else if (key == KEY_B)
+	{
+		if (mlx->f->s)
+			mlx->f->s = 0;
+		else
+			mlx->f->s = 1;
+	}
+	if (key != 35 || key != 45)
+		image_put(mlx);
 	return (0);
 }
 
@@ -116,10 +134,14 @@ int		win_close(void *param)
 	mlx = (t_mlx *)param;
 	mlx_clear_window(mlx->ptr, mlx->win);
 	mlx_destroy_window(mlx->ptr, mlx->win);
+	ft_memdel((void **)&mlx->f);
+	ft_strdel(&mlx->cl->source_str);
     mlx->cl->ret = clReleaseKernel(mlx->cl->kernel);
     mlx->cl->ret = clReleaseProgram(mlx->cl->program);
     mlx->cl->ret = clReleaseMemObject(mlx->cl->mem_obj);
     mlx->cl->ret = clReleaseCommandQueue(mlx->cl->command_queue);
     mlx->cl->ret = clReleaseContext(mlx->cl->context);
+	ft_memdel((void **)&mlx->cl);
+	ft_putstr("exiting\n");
 	exit(0);
 }

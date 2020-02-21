@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 14:45:02 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:49:55 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include "visual.h"
 #include "cl_h.h"
-#include "key_code.h"
+#include "keys.h"
 #include "window.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +32,7 @@ void	mandelbrot_init(t_mlx *mlx)
 {
 	cl_int	ret;
 
+	ft_strdel(&mlx->cl->source_str);
 	ret = clSetKernelArg(mlx->cl->kernel, 0, sizeof(cl_mem), (void *)&mlx->cl->mem_obj);
 	terminate("clSetKernelArg_0", ret);
 	ret = clSetKernelArg(mlx->cl->kernel, 1, sizeof(t_fractol), (void *)mlx->f);
@@ -59,7 +60,6 @@ void	image_put(t_mlx *mlx)
 	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_size, &mlx->ed);
 	mlx->f->factor = init_compl((mlx->f->xmax - mlx->f->xmin) / (WIDTH - 1),
 				(mlx->f->ymax - mlx->f->ymin) / (HIEGHT - 1));
-	printf("\n--re %f -- im %f --\n", mlx->f->factor.re, mlx->f->factor.im);
 	mandelbrot_init(mlx);
 	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue, mlx->cl->mem_obj, CL_TRUE, 0, sizeof(int) * WIDTH * HIEGHT,
 			mlx->line, 0, NULL, NULL);
@@ -73,9 +73,9 @@ void	image_put(t_mlx *mlx)
 		draw_menu_strings(mlx);
 	line = ft_strdup("Iterations = ");
 	num = ft_itoa(mlx->f->iter);
-	temp = ft_strdup(line);
+	temp = line;
 	line = ft_strjoin(temp, num);
-	ft_strdel(&temp);
+	free(temp);
 	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_WHITE, line);
 	ft_strdel(&line);
 	ft_strdel(&num);
@@ -137,16 +137,14 @@ void	cl_init(t_opcl *cl, int set)
 	terminate("clCreateProgramWithSource", cl->ret);
     // Build the program
     cl->ret = clBuildProgram(cl->program, 0, NULL, "-I includes/", NULL, NULL);
-	if (cl->ret == CL_SUCCESS)
-		fprintf(stdout, "clBuildProgram SUCCESS\n");
-	else if (cl->ret == CL_BUILD_PROGRAM_FAILURE)
+	if (cl->ret == CL_BUILD_PROGRAM_FAILURE)
 	{
-		fprintf(stderr, "ERROR CL_BUILD_PROGRAM_FAILURE\n");
 		clGetProgramBuildInfo(cl->program, cl->device_id, CL_PROGRAM_BUILD_LOG, 0, NULL, &cl->log_size);
 		char *log = (char *) malloc(cl->log_size);
 		clGetProgramBuildInfo(cl->program, cl->device_id, CL_PROGRAM_BUILD_LOG, cl->log_size, log, NULL);
 		fprintf(stderr, "%s\n", log);
 	}
+	terminate("clBuildProgram", cl->ret);
 
     // Create the OpenCL kernel
 	if (set == 1)
@@ -162,6 +160,7 @@ void	cl_init(t_opcl *cl, int set)
 
 void	fractol_init(t_fractol *f)
 {
+	f->s = 0;
 	f->iter = 50;
 	f->color = 1;
 	f->zoom = 1;
@@ -179,6 +178,25 @@ void	fractol_init(t_fractol *f)
 	f->k = init_compl(-0.4, 0.6);
 
 }
+void	re_draw(int set, t_mlx *mlx)
+{
+	mlx->set = set;
+	mlx->cl->ret = clReleaseKernel(mlx->cl->kernel);
+	terminate("clReleaseKernel", mlx->cl->ret);
+    mlx->cl->ret = clReleaseProgram(mlx->cl->program);
+	terminate("clReleaseProgram", mlx->cl->ret);
+    mlx->cl->ret = clReleaseMemObject(mlx->cl->mem_obj);
+	terminate("clReleaseMemObject", mlx->cl->ret);
+    mlx->cl->ret = clReleaseCommandQueue(mlx->cl->command_queue);
+	terminate("clReleaseCommandQueue", mlx->cl->ret);
+    mlx->cl->ret = clReleaseContext(mlx->cl->context);
+	terminate("clReleaseContext", mlx->cl->ret);
+	mlx->change = 0;
+	mlx->ani = 0;
+	cl_init(mlx->cl, set);
+	fractol_init(mlx->f);
+	image_put(mlx);
+}
 
 void	draw(int set)
 {
@@ -187,6 +205,8 @@ void	draw(int set)
 
 	mlx.cl = ft_memalloc(sizeof(t_opcl));
 	mlx.f = ft_memalloc(sizeof(t_fractol));
+	mlx.set = set;
+	mlx.change = 0;
 	mlx.ani = 0;
 	cl_init(mlx.cl, set);
 	fractol_init(mlx.f);

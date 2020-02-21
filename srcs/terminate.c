@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 11:27:02 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/19 17:00:51 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:25:50 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@ void		terminate(char *string, cl_int ret)
 
 	err_num = NULL;
 	if (ret == CL_SUCCESS)
-	{
-		ft_putstr(string);
-		ft_putstr(" SUCCESS\n");
 		return ;
-	}
 	err_num = ft_itoa(ret);
 	err_num = ft_strjoin(" ", err_num);
 	ft_putstr("ERROR in ");

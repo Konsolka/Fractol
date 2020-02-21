@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 14:56:51 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:29:46 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct	s_point
 typedef	struct	s_mlx
 {
 	void		*ptr;
+	int			set;
+	int			change;
 	int			ani;
 	void		*win;
 	void		*img;
@@ -77,5 +79,7 @@ void	draw_menu(t_mlx *mlx);
 int		win_close(void *param);
 t_compl	init_compl(const double re, const double im);
 void	terminate(char *string, cl_int ret);
+void	draw(int set);
+void	re_draw(int set, t_mlx *mlx);
 void	fractol_init(t_fractol *f);
 #endif

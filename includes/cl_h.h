@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 14:12:11 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:49:43 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,9 @@ typedef struct	s_fractol
 	double	zoom;
 	double	x;
 	double	y;
+	int		s;
 	double	dx;
 	double	dy;
-	double	aa;
-	double	bb;
-	double	a;
-	double	b;
-	double	ca;
-	double	cb;
 	double	xmouse;
 	double	ymouse;
 	double	xmove;

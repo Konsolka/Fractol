@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 12:35:38 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/17 15:29:37 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 18:29:37 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@
 # define COLOR_AL_GRAY		0x505050
 # define COLOR_BLACK		0x000000
 # define COLOR_YELLOW		0xFFFF00
-
+# define MENU_BACKGROUND	0x1E1E1E
 #endif

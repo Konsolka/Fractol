@@ -38,7 +38,7 @@ int set_colors(unsigned char o, unsigned char red, \
 	return (res);
 }
 
-int		choose_color(int i, int max, char color)
+int		choose_color(int i, int max, char color, int s)
 {
 	int			red;
 	int			blue;
@@ -46,17 +46,26 @@ int		choose_color(int i, int max, char color)
 	double		n;
 
 	n = (double)i / (double)max;
-	red = (int)(9 * (1 - n) * (n * n * n) * 255);
-	green = (int)(15 * ((1 - n) * (1 - n)) * (n * n) * 255);
-	blue = (int)(8.5 * ((1 - n) * (1 - n) * (1 - n)) * n * 255);
-	if (1 == color)
+	if (s)
+	{
+		red = (int)(4 / n * 255);
+		green = (int)(2 / n * 255);
+		blue = (int)(3 / n * 255);
+	}
+	else
+	{
+		red = (int)(9 * (1 - n) * (n * n * n) * 255);
+		green = (int)(2 * ((1 - n) * (1 - n)) * (n * n) * 255);
+		blue = (int)(8.5 * ((1 - n) * (1 - n) * (1 - n)) * n * 255);
+	}
+	if (color == 1)
 		return (set_colors(0, red, green, blue));
 	else if (color == 2)
-		return (set_colors(0, blue, green, red));
+	 	return (set_colors(0, red, blue, green));
 	else if (color == 3)
 		return (set_colors(0, blue, red, green));
 	else if (color == 4)
-	 	return (set_colors(0, red, blue, green));
+		return (set_colors(0, blue, green, red));
 	else if (color == 5)
 	 	return (set_colors(0, green, blue, red));
 	else if (color == 6)
@@ -100,7 +109,7 @@ __kernel void	mandelbrot_set(__global int *data, t_fractol f, int color)
 		iter++;
 	}
 	if (iter < f.iter)
- 		data[temp] = choose_color(iter, f.iter, color);
+ 		data[temp] = choose_color(iter, f.iter, color, f.s);
  	else
         data[temp] = 0;
 }
@@ -137,7 +146,7 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 		iter++;
 	}
 	if (iter < f.iter)
- 		data[temp] = choose_color(iter, f.iter, color);
+ 		data[temp] = choose_color(iter, f.iter, color, f.s);
  	else
         data[temp] = 0;
 }
