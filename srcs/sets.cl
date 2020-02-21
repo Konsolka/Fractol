@@ -81,8 +81,10 @@ __kernel void	mandelbrot_set(__global int *data, t_fractol f, int color)
 	temp = get_global_id(0);
 	x = temp % WIDTH;
 	y = temp / HIEGHT;
-	a = (ft_map(x, 0, WIDTH, f.xmin, f.xmax) + f.xmove) / f.zoom;
-	b = (ft_map(y, 0, HIEGHT, f.ymin, f.ymax) + f.ymove) / f.zoom;
+	f.c.im = f.ymax - y * f.factor.im;
+	f.c.re = f.xmin + x * f.factor.re;
+	a = f.c.re;
+	b = f.c.im;
 	ca = a;
 	cb = b;
 	iter = 0;
@@ -90,9 +92,9 @@ __kernel void	mandelbrot_set(__global int *data, t_fractol f, int color)
 	{
 		aa = a * a;
 		bb = b * b;
-		twoab = 2 * a * b;
 		if (aa + bb > 4.0)
 			break ;
+		twoab = 2 * a * b;
 		a = aa - bb + ca;
 		b = twoab + cb;
 		iter++;
@@ -118,14 +120,10 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 	double		twoab;
 
 	temp = get_global_id(0);
-	// ca = ft_map(f.xmouse, 0, WIDTH, -2.5, 2.5);
-	// cb = ft_map(f.ymouse, 0, HIEGHT, -2.5, 2.5);
-	ca = ft_map(f.xmouse, 0, WIDTH, f.xmin, f.xmax);
-	cb = ft_map(f.ymouse, 0, HIEGHT, f.ymin, f.ymax);
 	x = temp % WIDTH;
 	y = temp / HIEGHT;
-	a = f.xmin + f.dx * x;
-	b = f.ymin + f.dy * y;
+	a = f.xmin + x * f.factor.re;
+	b = f.ymax - y * f.factor.im;
 	iter = 0;
 	while (iter < f.iter)
 	{
@@ -134,8 +132,8 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 		if (aa + bb > 4.0)
 			break ;
 		twoab = 2 * a * b;
-		a = aa - bb + ca;
-		b = twoab + cb;
+		a = aa - bb + f.k.re;
+		b = twoab + f.k.im;
 		iter++;
 	}
 	if (iter < f.iter)

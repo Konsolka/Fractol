@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/19 18:42:00 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 14:45:02 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void	image_put(t_mlx *mlx)
 
 	mlx->img = (int *)mlx_new_image(mlx->ptr, WIDTH, HIEGHT);
 	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->line_size, &mlx->ed);
+	mlx->f->factor = init_compl((mlx->f->xmax - mlx->f->xmin) / (WIDTH - 1),
+				(mlx->f->ymax - mlx->f->ymin) / (HIEGHT - 1));
+	printf("\n--re %f -- im %f --\n", mlx->f->factor.re, mlx->f->factor.im);
 	mandelbrot_init(mlx);
 	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue, mlx->cl->mem_obj, CL_TRUE, 0, sizeof(int) * WIDTH * HIEGHT,
 			mlx->line, 0, NULL, NULL);
@@ -159,22 +162,22 @@ void	cl_init(t_opcl *cl, int set)
 
 void	fractol_init(t_fractol *f)
 {
-	f->iter = 10;
+	f->iter = 50;
 	f->color = 1;
 	f->zoom = 1;
 	f->j = 0;
-	f->xmin = -2.5;
-	f->ymin = -2.5;
-	f->x = f->xmin;
-	f->y = f->ymin;
-	f->xmax = 2.5;
-	f->ymax = 2.5;
+	f->xmin = -2.0;
+	f->ymin = -2.0;
+	f->xmax = 2.0;
+	f->ymax = 2.0;
 	f->xmouse = 200;
 	f->ymouse = 200;
 	f->xmove = 0;
 	f->ymove = 0;
 	f->dx = (f->xmax - f->xmin) / WIDTH;
 	f->dy = (f->ymax - f->ymin) / HIEGHT;
+	f->k = init_compl(-0.4, 0.6);
+
 }
 
 void	draw(int set)
@@ -189,7 +192,6 @@ void	draw(int set)
 	fractol_init(mlx.f);
 	mlx.ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.ptr, WIDTH, HIEGHT, TITLE);
-
 	image_put(&mlx);
 	mlx_hook(mlx.win, 4, 0, mouse_press, &mlx);
 	mlx_hook(mlx.win, 2, 0, key_parce, &mlx);

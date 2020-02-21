@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/19 17:01:05 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 13:47:34 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@ void		draw_square(t_point coords, t_point size, t_mlx *mlx, int color)
 		}
 		i++;
 	}
+}
+
+t_compl	init_compl(const double re, const double im)
+{
+	t_compl	ret;
+
+	ret.re = re;
+	ret.im = im;
+	return (ret);
 }
 
 void	draw_menu_strings(t_mlx *mlx)

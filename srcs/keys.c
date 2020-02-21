@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/19 18:49:03 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/21 15:00:35 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int		mouse_release(int button, int x, int y, void *param)
 	if (button == MOUSE_LEFT_BUTTON)
 	{
 		mlx = (t_mlx *)param;
-		mlx->f->xmouse = x;
-		mlx->f->ymouse = y;
+		mlx->f->k.re = 4 * ((double)x / WIDTH - 0.5);
+		mlx->f->k.im = 4 * ((double)(HIEGHT - y) / HIEGHT - 0.5);
 		image_put(mlx);
 		mlx_hook(mlx->win, 6, 0, mouse_move_void, mlx);
 	}
@@ -47,35 +47,35 @@ int		mouse_move(int x, int y, void *param)
 	t_mlx	*mlx;
 
 	mlx = (t_mlx *)param;
-	mlx->f->xmouse = x;
-	mlx->f->ymouse = y;
+	mlx->f->k.re = 4 * ((double)x / WIDTH - 0.5);
+	mlx->f->k.im = 4 * ((double)(HIEGHT - y) / HIEGHT - 0.5);
 	image_put(mlx);
 	return (0);
 }
 
 int		mouse_press(int button, int x, int y, void *param)
-{
+{	
 	t_mlx	*mlx;
+	t_compl	mouse;
+	double	zoom;
+	double	interpolation;
 
 	mlx = (t_mlx *)param;
-	if (!mlx->ani)
-		return (0);
-	if (button == MOUSE_SCROLL_DOWN)
+	if (button == MOUSE_SCROLL_UP || button == MOUSE_SCROLL_DOWN)
 	{
-		mlx->f->zoom *= 1.2;
-		// mlx->f->xmove = WIDTH - (x / WIDTH * (WIDTH * mlx->f->zoom - WIDTH));
-		// mlx->f->ymove = HIEGHT - (y / HIEGHT * (HIEGHT * mlx->f->zoom - HIEGHT));
-		mlx->f->xmove += ft_map(x, 0, WIDTH, mlx->f->xmin, mlx->f->xmax);
-		mlx->f->ymove += ft_map(x, 0, HIEGHT, mlx->f->ymin, mlx->f->ymax);
-	}
-	else if (button == MOUSE_SCROLL_UP)
-	{
-		if (mlx->f->zoom - 0.5 > 0)
-		{
-			mlx->f->zoom *= 0.8;
-			mlx->f->xmove += ft_map(x, 0, WIDTH, mlx->f->xmin, mlx->f->xmax);
-			mlx->f->ymove += ft_map(x, 0, HIEGHT, mlx->f->ymin, mlx->f->ymax);
-		}
+		mouse = init_compl(
+		(double)x / (WIDTH / (mlx->f->xmax - mlx->f->xmin)) + mlx->f->xmin,
+		(double)y / (HIEGHT / (mlx->f->ymax - mlx->f->ymin)) * -1 + mlx->f->ymax
+		);
+		if (button == MOUSE_SCROLL_DOWN)
+			zoom = 1.2;
+		else
+			zoom = 0.8;
+		interpolation = 1.0 / zoom;
+		mlx->f->xmin = mouse.re + ((mlx->f->xmin - mouse.re) * interpolation);
+		mlx->f->ymin = mouse.im + ((mlx->f->ymin - mouse.im) * interpolation);
+		mlx->f->xmax = mouse.re + ((mlx->f->xmax - mouse.re) * interpolation);
+		mlx->f->ymax = mouse.im + ((mlx->f->ymax - mouse.im) * interpolation);
 	}
 	else if (button == MOUSE_LEFT_BUTTON)
 		mlx_hook(mlx->win, 6, 0, mouse_move, mlx);
@@ -86,8 +86,6 @@ int		mouse_press(int button, int x, int y, void *param)
 int		key_parce(int key, void *param)
 {
 	t_mlx	*mlx;
-	int		x;
-	int		y;
 
 	mlx = (t_mlx *)param;
 	if (key == MAIN_PAD_ESC)
@@ -100,13 +98,7 @@ int		key_parce(int key, void *param)
 			mlx->f->iter--;
 	}
 	else if (key == 15)
-	{
-		mlx->f->xmove = 0;
-		mlx->f->ymove = 0;
-		mlx->f->color = 3;
-		mlx->f->zoom = 1;
-		mlx->f->iter = 10;
-	}
+		fractol_init(mlx->f);
 	else if (key == 4 && !mlx->menu)
 		mlx->menu = 1;
 	else if (key == 4 && mlx->menu)
