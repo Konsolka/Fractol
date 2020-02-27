@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 18:49:55 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/27 10:48:58 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,10 +220,15 @@ void	draw(int set)
 	mlx_loop(mlx.ptr);
 }
 
+void	usage()
 int		main(int ac, char **av)
 {
-	if (ac != 2)
+	int		set;
+
+	set = (ac == 2) ? ft_atoi(av[1]) : 0;
+	if (0 < set && set < 3)
+		draw(set);
+	else
 		ft_putstr_err("Usage:\t1: Mandelbrot\n\t2: Julia\n");
-	draw(ft_atoi(av[1]));
 	return (0);
 }
