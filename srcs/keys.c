@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:15:00 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 18:51:51 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/27 16:54:07 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int		key_parce(int key, void *param)
 	if (key == MAIN_PAD_ESC)
 		win_close(mlx);
 	else if (key == ARROW_UP)
-			mlx->f->iter += 10;
+			mlx->f->iter += (mlx->f->iter + 1 > 10) ? 10 : 1;
 	else if (key == ARROW_DOWN)
 	{
 		if (mlx->f->iter > 2)
-			mlx->f->iter -= 10;
+			mlx->f->iter -= (mlx->f->iter - 10 < 10) ? 1 : 10;
 	}
 	else if (key == 15)
 		fractol_init(mlx->f);
@@ -109,7 +109,7 @@ int		key_parce(int key, void *param)
 	{
 		mlx->change = 1;
 		mlx->set += (key == 35) ? 1 : -1;
-		if (mlx->set > 2)
+		if (mlx->set > 3)
 			mlx->set = 1;
 		else if (mlx->set < 1)
 			mlx->set = 2;

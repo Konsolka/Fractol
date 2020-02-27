@@ -1,15 +1,33 @@
 #include "cl_h.h"
 #include "window.h"
 
-double			ft_map(double value, double start_range, double end_range,
-						double new_range_start, double new_range_end)
+double			ft_abs(double x)
+{
+	return ((x < 0) ? -x : x);
+}
+
+double			ft_pow(double x, long y)
+{
+	long	i;
+	double	res;
+
+	i = 0;
+	res = 1.0;
+	while (i < y)
+	{
+		res *= x;
+		i++;
+	}
+	return (res);
+}
+
+double			ft_map(double value, double start_range, double end_range, double new_range_start, double new_range_end)
 {
 	return ((value - start_range) / (end_range - start_range) *
 				(new_range_end - new_range_start) + new_range_start);
 }
 
-int set_colors(unsigned char o, unsigned char red, \
-				unsigned char green, unsigned char blue)
+int				set_colors(unsigned char o, unsigned char red, unsigned char green, unsigned char blue)
 {
 	int i;
 	int tmp;
@@ -48,13 +66,14 @@ int		choose_color(int i, int max, char color, int s)
 	n = (double)i / (double)max;
 	if (s)
 	{
-		red = (int)(4 / n * 255);
+		red = (int)(1 / n * 255);
 		green = (int)(2 / n * 255);
 		blue = (int)(3 / n * 255);
 	}
 	else
 	{
-		red = (int)(9 * (1 - n) * (n * n * n) * 255);
+		// red = (int)(9 * (1 - n) * (n * n * n) * 255);
+		red = (int)(n * n * n * n * 255);
 		green = (int)(2 * ((1 - n) * (1 - n)) * (n * n) * 255);
 		blue = (int)(8.5 * ((1 - n) * (1 - n) * (1 - n)) * n * 255);
 	}
@@ -109,9 +128,9 @@ __kernel void	mandelbrot_set(__global int *data, t_fractol f, int color)
 		iter++;
 	}
 	if (iter < f.iter)
- 		data[temp] = choose_color(iter, f.iter, color, f.s);
- 	else
-        data[temp] = 0;
+		data[temp] = choose_color(iter, f.iter, color, f.s);
+	else
+		data[temp] = 0;
 }
 
 __kernel void	julia_set(__global int *data, t_fractol f, int color)
@@ -124,8 +143,6 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 	double		b;
 	double		aa;
 	double		bb;
-	double		ca;
-	double		cb;
 	double		twoab;
 
 	temp = get_global_id(0);
@@ -138,7 +155,7 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 	{
 		aa = a * a;
 		bb = b * b;
-		if (aa + bb > 4.0)
+		if (aa + bb > 40.0)
 			break ;
 		twoab = 2 * a * b;
 		a = aa - bb + f.k.re;
@@ -146,7 +163,37 @@ __kernel void	julia_set(__global int *data, t_fractol f, int color)
 		iter++;
 	}
 	if (iter < f.iter)
- 		data[temp] = choose_color(iter, f.iter, color, f.s);
- 	else
-        data[temp] = 0;
+		data[temp] = choose_color(iter, f.iter, color, f.s);
+	else
+		data[temp] = 0;
+}
+
+__kernel void	burning_ship(__global int *data, t_fractol f, int color)
+{
+	int			iteration;
+	int			x;
+	int			y;
+	int 		temp;
+	double		tmp;
+
+	temp = get_global_id(0);
+	x = temp % WIDTH;
+	y = temp / HIEGHT;
+	f.c.im = f.ymax - y * f.factor.im;
+	f.c.re = f.xmin + x * f.factor.re;
+	f.z.re = f.c.re;
+	f.z.im = f.c.im;
+	iteration = 0;
+	while ((f.z.re * f.z.re) + (f.z.im * f.z.im) <= 40.0
+			&& iteration < f.iter)
+	{
+		tmp = f.z.im;
+		f.z.im = 2.0 * ft_abs(f.z.re * tmp) + f.c.im;
+		f.z.re = (f.z.re * f.z.re) - (tmp * tmp) + f.c.re;
+		++iteration;
+	}
+	if (iteration <  f.iter)
+		data[temp] = choose_color(iteration, f.iter, color, f.s);
+	else
+		data[temp] = 0;
 }

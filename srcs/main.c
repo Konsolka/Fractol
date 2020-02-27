@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/27 10:48:58 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/27 16:56:16 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ void	cl_init(t_opcl *cl, int set)
     	cl->kernel = clCreateKernel(cl->program, "mandelbrot_set", &cl->ret);
 	else if (set == 2)
 		cl->kernel = clCreateKernel(cl->program, "julia_set", &cl->ret);
+	else if (set == 3)
+		cl->kernel = clCreateKernel(cl->program, "burning_ship", &cl->ret);
 	terminate("clCreateKernel", cl->ret);
 	cl->global_s = WIDTH * HIEGHT;
 	cl->mem_obj = clCreateBuffer(cl->context, CL_MEM_READ_ONLY,
@@ -161,7 +163,6 @@ void	cl_init(t_opcl *cl, int set)
 void	fractol_init(t_fractol *f)
 {
 	f->s = 0;
-	f->iter = 50;
 	f->color = 1;
 	f->zoom = 1;
 	f->j = 0;
@@ -176,8 +177,8 @@ void	fractol_init(t_fractol *f)
 	f->dx = (f->xmax - f->xmin) / WIDTH;
 	f->dy = (f->ymax - f->ymin) / HIEGHT;
 	f->k = init_compl(-0.4, 0.6);
-
 }
+
 void	re_draw(int set, t_mlx *mlx)
 {
 	mlx->set = set;
@@ -210,6 +211,7 @@ void	draw(int set)
 	mlx.ani = 0;
 	cl_init(mlx.cl, set);
 	fractol_init(mlx.f);
+	mlx.f->iter = 50;
 	mlx.ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.ptr, WIDTH, HIEGHT, TITLE);
 	image_put(&mlx);
@@ -220,15 +222,14 @@ void	draw(int set)
 	mlx_loop(mlx.ptr);
 }
 
-void	usage()
 int		main(int ac, char **av)
 {
 	int		set;
 
 	set = (ac == 2) ? ft_atoi(av[1]) : 0;
-	if (0 < set && set < 3)
+	if (0 < set && set < 4)
 		draw(set);
 	else
-		ft_putstr_err("Usage:\t1: Mandelbrot\n\t2: Julia\n");
+		ft_putstr_err("Usage:\t1: Mandelbrot\n\t2: Julia\n\t3: Burning Ship\n");
 	return (0);
 }
