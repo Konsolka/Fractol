@@ -6,36 +6,12 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 17:34:16 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 18:31:52 by mburl            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   key_macos.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vbrazhni <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/06 16:18:47 by vbrazhni          #+#    #+#             */
-/*   Updated: 2018/08/06 16:18:49 by vbrazhni         ###   ########.fr       */
+/*   Updated: 2020/02/28 16:44:59 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEYS_H
 # define KEYS_H
-
-/*
-** char *string = ""
-**	"asdfhgzxcv"		This string has the matching symbol or letter
-**	"bqweryt123"		for the index of the keycode for the key.
-**	"465=97-80]"		if you press KEY_BRACE_R or ]
-**	"ou[ip lj\"k"		You could use string[30] or string[KEY_BRACE_R]
-**	";\\,/nm.  ` "		to access the matching symbol or letter.
-**	"	. * +   "
-**	"/ -  =012345"		If you find anything missing please let me know.
-**	"67 89";
-*/
 
 # define KEY_A 0
 # define KEY_S 1

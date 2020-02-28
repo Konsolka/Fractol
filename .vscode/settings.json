@@ -20,6 +20,7 @@
 		"stdio.h": "c",
 		"libft.h": "c",
 		"cl_h.h": "c",
-		"keys.h": "c"
+		"keys.h": "c",
+		"visual.h": "c"
 	}
 }

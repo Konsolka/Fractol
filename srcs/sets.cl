@@ -6,21 +6,6 @@ double			ft_abs(double x)
 	return ((x < 0) ? -x : x);
 }
 
-double			ft_pow(double x, long y)
-{
-	long	i;
-	double	res;
-
-	i = 0;
-	res = 1.0;
-	while (i < y)
-	{
-		res *= x;
-		i++;
-	}
-	return (res);
-}
-
 double			ft_map(double value, double start_range, double end_range, double new_range_start, double new_range_end)
 {
 	return ((value - start_range) / (end_range - start_range) *

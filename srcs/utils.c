@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/21 18:32:56 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/28 16:19:05 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "keys.h"
 #include "visual.h"
 
-void		draw_square(t_point coords, t_point size, t_mlx *mlx, int color)
+void		draw_square(t_point coords, t_point size,
+				t_mlx *mlx, int color)
 {
 	int		i;
 	int		j;
@@ -39,7 +40,7 @@ void		draw_square(t_point coords, t_point size, t_mlx *mlx, int color)
 	}
 }
 
-t_compl	init_compl(const double re, const double im)
+t_compl		init_compl(const double re, const double im)
 {
 	t_compl	ret;
 
@@ -48,21 +49,31 @@ t_compl	init_compl(const double re, const double im)
 	return (ret);
 }
 
-void	draw_menu_strings(t_mlx *mlx)
+void		draw_menu_strings(t_mlx *mlx)
 {
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 20, COLOR_WHITE, "--Arrow up--");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 45, COLOR_WHITE, "Increase itertations");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 70, COLOR_WHITE, "--Arrow down--");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 95, COLOR_WHITE, "Decrease itertations");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 120, COLOR_WHITE, "--Mouse scroll up--");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 145, COLOR_WHITE, "Zoom in");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 170, COLOR_WHITE, "--Mouse scroll down--");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 195, COLOR_WHITE, "Zoom out");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 220, COLOR_WHITE, "--R--        --ESC--");
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20 + 245, COLOR_WHITE, "Reset         Exit");
-
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 20, COLOR_WHITE, "--Arrow up--");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 45, COLOR_WHITE, "Increase itertations");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 70, COLOR_WHITE, "--Arrow down--");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 95, COLOR_WHITE, "Decrease itertations");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 120, COLOR_WHITE, "--Mouse scroll up--");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 145, COLOR_WHITE, "Zoom in");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 170, COLOR_WHITE, "--Mouse scroll down--");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 195, COLOR_WHITE, "Zoom out");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 220, COLOR_WHITE, "--R--        --ESC--");
+	mlx_string_put(mlx->ptr, mlx->win, 20,
+			20 + 245, COLOR_WHITE, "Reset         Exit");
 }
-void	draw_menu(t_mlx *mlx)
+
+void		draw_menu(t_mlx *mlx)
 {
 	t_point		point;
 	t_point		size;
