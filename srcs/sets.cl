@@ -57,7 +57,6 @@ int		choose_color(int i, int max, char color, int s)
 	}
 	else
 	{
-		// red = (int)(9 * (1 - n) * (n * n * n) * 255);
 		red = (int)(n * n * n * n * 255);
 		green = (int)(2 * ((1 - n) * (1 - n)) * (n * n) * 255);
 		blue = (int)(8.5 * ((1 - n) * (1 - n) * (1 - n)) * n * 255);

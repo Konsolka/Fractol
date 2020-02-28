@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 17:03:41 by mburl             #+#    #+#             */
-/*   Updated: 2019/10/16 07:56:11 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/28 16:59:00 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,4 @@ void	ft_putstr_err(char *s)
 	if (!s)
 		return ;
 	write(2, s, ft_strlen(s));
-	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/28 16:43:29 by mburl            ###   ########.fr       */
+/*   Updated: 2020/02/28 17:01:27 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,10 @@ int		main(int ac, char **av)
 	if (0 < set && set < 4)
 		draw(set);
 	else
-		ft_putstr_err("Usage:\t1: Mandelbrot\n\t2: Julia\n\t3: Burning Ship\n");
+	{
+		ft_putstr_err("Usage:\t./fractol [num]\n");
+		ft_putstr_err("\t1: Mandelbrot\n");
+		ft_putstr_err("\t2: Julia\n\t3: Burning Ship\n");
+	}
 	return (0);
 }
