@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 09:26:08 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 09:29:08 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	iterations_put(t_mlx *mlx)
 	temp = line;
 	line = ft_strjoin(temp, num);
 	free(temp);
-	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_WHITE, line);
+	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_AL_GRAY, line);
 	if (mlx->menu)
 		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
-			COLOR_WHITE, "Hide menu  - H");
+			COLOR_AL_GRAY, "Hide menu  - H");
 	else
 		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
-			COLOR_WHITE, "Show menu  - H");
+			COLOR_AL_GRAY, "Show menu  - H");
 	ft_strdel(&line);
 	ft_strdel(&num);
 }

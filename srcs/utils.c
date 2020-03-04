@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 09:08:08 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 09:28:53 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ void		draw_menu(t_mlx *mlx)
 {
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
 	mlx_string_put(mlx->ptr, mlx->win, 460, 355,
-		COLOR_WHITE, "Controls");
+		COLOR_AL_GRAY, "Controls");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 400,
-		COLOR_WHITE, "Itertations   - Arrow up / down");
+		COLOR_AL_GRAY, "Itertations   - Arrow up / down");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 430,
-		COLOR_WHITE, "Zoom          - Scroll");
+		COLOR_AL_GRAY, "Zoom          - Scroll");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 460,
-		COLOR_WHITE, "Color         - 1..6 / B");
+		COLOR_AL_GRAY, "Color         - 1..6 / B");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 490,
-		COLOR_WHITE, "Fractals      - P / N");
+		COLOR_AL_GRAY, "Fractals      - P / N");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 520,
-		COLOR_WHITE, "Reset         - R");
+		COLOR_AL_GRAY, "Reset         - R");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 550,
-		COLOR_WHITE, "Exit          - ESC");
+		COLOR_AL_GRAY, "Exit          - ESC");
 }
