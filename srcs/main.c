@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 09:55:54 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 16:00:36 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	iterations_put(t_mlx *mlx)
 	line = ft_strjoin(temp, num);
 	free(temp);
 	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_AL_GRAY, line);
-	if (mlx->menu)
-		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
-			COLOR_AL_GRAY, "Hide menu  - H");
-	else
+	if (!mlx->menu)
 		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
 			COLOR_AL_GRAY, "Show menu  - H");
 	ft_strdel(&line);
@@ -101,6 +98,7 @@ void	draw(int set)
 	mlx.set = set;
 	mlx.change = 0;
 	mlx.ani = 0;
+	mlx.menu = 1;
 	cl_init(mlx.cl, set);
 	fractol_init(mlx.f);
 	mlx.f->iter = 50;
@@ -121,11 +119,6 @@ int		main(int ac, char **av)
 	set = (ac == 2) ? ft_atoi(av[1]) : 0;
 	if (0 < set && set < 4)
 		draw(set);
-	else
-	{
-		ft_putstr_err("Usage:\t./fractol [num]\n");
-		ft_putstr_err("\t1: Mandelbrot\n");
-		ft_putstr_err("\t2: Julia\n\t3: Burning Ship\n");
-	}
+	error_put();
 	return (0);
 }
