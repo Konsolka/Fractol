@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 14:52:57 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/28 17:01:27 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 09:26:08 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	iterations_put(t_mlx *mlx)
 	line = ft_strjoin(temp, num);
 	free(temp);
 	mlx_string_put(mlx->ptr, mlx->win, 20, 20, COLOR_WHITE, line);
+	if (mlx->menu)
+		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
+			COLOR_WHITE, "Hide menu  - H");
+	else
+		mlx_string_put(mlx->ptr, mlx->win, 20, 50,
+			COLOR_WHITE, "Show menu  - H");
 	ft_strdel(&line);
 	ft_strdel(&num);
 }
@@ -47,20 +53,21 @@ void	image_put(t_mlx *mlx)
 	mlx->img = (int *)mlx_new_image(mlx->ptr, WIDTH, HIEGHT);
 	mlx->line = mlx_get_data_addr(mlx->img, &mlx->bpp,
 				&mlx->line_size, &mlx->ed);
-	mlx->f->factor = init_compl((mlx->f->xmax - mlx->f->xmin) / (WIDTH - 1),
-				(mlx->f->ymax - mlx->f->ymin) / (HIEGHT - 1));
-	set_init(mlx);
-	mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue,
-			mlx->cl->mem_obj, CL_TRUE, 0,
-			sizeof(int) * WIDTH * HIEGHT, mlx->line, 0, NULL, NULL);
-	terminate("clEnqueueReadBuffer", mlx->cl->ret);
-	mlx->cl->ret = clFlush(mlx->cl->command_queue);
-	mlx->cl->ret = clFinish(mlx->cl->command_queue);
-	if (mlx->menu)
+	if (!mlx->menu)
+	{
+		mlx->f->factor = init_compl((mlx->f->xmax - mlx->f->xmin) / (WIDTH - 1),
+					(mlx->f->ymax - mlx->f->ymin) / (HIEGHT - 1));
+		set_init(mlx);
+		mlx->cl->ret = clEnqueueReadBuffer(mlx->cl->command_queue,
+				mlx->cl->mem_obj, CL_TRUE, 0,
+				sizeof(int) * WIDTH * HIEGHT, mlx->line, 0, NULL, NULL);
+		terminate("clEnqueueReadBuffer", mlx->cl->ret);
+		mlx->cl->ret = clFlush(mlx->cl->command_queue);
+		mlx->cl->ret = clFinish(mlx->cl->command_queue);
+		mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
+	}
+	else
 		draw_menu(mlx);
-	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
-	if (mlx->menu)
-		draw_menu_strings(mlx);
 	iterations_put(mlx);
 	mlx_destroy_image(mlx->ptr, mlx->img);
 }
