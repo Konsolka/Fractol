@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 16:34:04 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 09:55:47 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 14:09:41 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef	struct			s_mlx
 	t_fractol	*f;
 }						t_mlx;
 
+void					change_pos(t_fractol *f, int key);
 void					cl_init(t_opcl *cl, int set);
 int						win_close(void *param);
 void					image_put(t_mlx *mlx);

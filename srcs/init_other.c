@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 16:35:07 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/28 16:42:02 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 14:18:22 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,10 @@ void	fractol_init(t_fractol *f)
 {
 	f->s = 0;
 	f->color = 1;
-	f->zoom = 1;
-	f->j = 0;
 	f->xmin = -2.0;
 	f->ymin = -2.0;
 	f->xmax = 2.0;
 	f->ymax = 2.0;
-	f->xmouse = 200;
-	f->ymouse = 200;
-	f->xmove = 0;
-	f->ymove = 0;
-	f->dx = (f->xmax - f->xmin) / WIDTH;
-	f->dy = (f->ymax - f->ymin) / HIEGHT;
 	f->k = init_compl(-0.4, 0.6);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 09:28:53 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 14:15:58 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,30 @@ t_compl		init_compl(const double re, const double im)
 	return (ret);
 }
 
+void		change_pos(t_fractol *f, int key)
+{
+	if (key == KEY_A)
+	{
+		f->xmin += 10 * f->factor.re;
+		f->xmax += 10 * f->factor.re;
+	}
+	else if (key == KEY_S)
+	{
+		f->ymax += 10 * f->factor.im;
+		f->ymin += 10 * f->factor.im;
+	}
+	else if (key == KEY_D)
+	{
+		f->xmin -= 10 * f->factor.re;
+		f->xmax -= 10 * f->factor.re;
+	}
+	else if (key == KEY_W)
+	{
+		f->ymax -= 10 * f->factor.im;
+		f->ymin -= 10 * f->factor.im;
+	}
+}
+
 void		draw_menu(t_mlx *mlx)
 {
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
@@ -36,11 +60,13 @@ void		draw_menu(t_mlx *mlx)
 	mlx_string_put(mlx->ptr, mlx->win, 385, 430,
 		COLOR_AL_GRAY, "Zoom          - Scroll");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 460,
-		COLOR_AL_GRAY, "Color         - 1..6 / B");
+		COLOR_AL_GRAY, "WASD          - Movement");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 490,
-		COLOR_AL_GRAY, "Fractals      - P / N");
+		COLOR_AL_GRAY, "Color         - 1..6 / B");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 520,
-		COLOR_AL_GRAY, "Reset         - R");
+		COLOR_AL_GRAY, "Fractals      - P / N");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 550,
+		COLOR_AL_GRAY, "Reset         - R");
+	mlx_string_put(mlx->ptr, mlx->win, 385, 580,
 		COLOR_AL_GRAY, "Exit          - ESC");
 }

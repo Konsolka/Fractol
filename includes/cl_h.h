@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 13:54:54 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/28 16:45:16 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 14:19:13 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,11 @@ typedef struct	s_fractol
 	t_compl	k;
 	char	color;
 	int		iter;
-	int		i;
-	int		j;
 	double	xmin;
 	double	ymin;
 	double	xmax;
 	double	ymax;
-	double	zoom;
-	double	x;
-	double	y;
 	int		s;
-	double	dx;
-	double	dy;
-	double	xmouse;
-	double	ymouse;
-	double	xmove;
-	double	ymove;
 	double	twoab;
 }				t_fractol;
 
