@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 16:07:20 by mburl             #+#    #+#             */
-/*   Updated: 2020/02/28 16:23:25 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/04 09:56:20 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	cl_build_program(t_opcl *cl)
 
 void	cl_init(t_opcl *cl, int set)
 {
+	ft_strdel(&cl->source_str);
 	if (!(cl->source_str = load_src("srcs/sets.cl")))
 		terminate("Error: when reading a program.", 1);
 	cl->ret = clGetPlatformIDs(0, 0, &cl->ret_num_platforms);
