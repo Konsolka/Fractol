@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/04 16:17:03 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/05 10:01:39 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		change_pos(t_fractol *f, int key)
 void		draw_menu(t_mlx *mlx)
 {
 	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->img, 0, 0);
-mlx_string_put(mlx->ptr, mlx->win, 460, 325,
+	mlx_string_put(mlx->ptr, mlx->win, 460, 325,
 		COLOR_AL_GRAY, "Controls");
 	mlx_string_put(mlx->ptr, mlx->win, 385, 370,
 		COLOR_AL_GRAY, "Hide menu     - H");
