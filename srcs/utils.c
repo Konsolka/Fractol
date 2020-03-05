@@ -6,7 +6,7 @@
 /*   By: mburl <mburl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 17:26:28 by mburl             #+#    #+#             */
-/*   Updated: 2020/03/05 10:01:39 by mburl            ###   ########.fr       */
+/*   Updated: 2020/03/05 10:07:48 by mburl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		error_put(void)
 	ft_putstr_err("Usage:\n");
 	ft_putstr_err("\t./fractol [set]\n");
 	ft_putstr_err("Sets:\n");
-	ft_putstr_err("\t1: Mandelbrot\n");
-	ft_putstr_err("\t2: Julia\n\t3: Burning Ship\n");
+	ft_putstr_err("\t1\tMandelbrot\n");
+	ft_putstr_err("\t2\tJulia\n\t3\tBurning Ship\n");
 	exit(-1);
 }
