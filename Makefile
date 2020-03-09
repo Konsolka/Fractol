@@ -3,7 +3,7 @@ NAME		= fractol
 # COMPIER
 
 CC				=	gcc
-CFLAGS			=	-Wall -Wextra
+CFLAGS			=	-Wall -Wextra -Werror
 
 # OPTIONS
 
@@ -74,7 +74,7 @@ $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)%.o:$(SRC_DIR)%.c $(HEADERS)
-	@echo $(WAVE) " - Compiling $<  ->  $@" $(EOC)
+	@printf " \e[1;34m- Compiling  %-21s  ->  %-21s\n\e[m" "$<" "$@"
 	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(LIBFT):
@@ -94,6 +94,9 @@ fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIBFT_DIRECTORY) fclean
 
+norm:
+	@sh scripts/norm.sh
+
 re: fclean all
 
-.PHONY: all obj clean fclean re
+.PHONY: all norm obj clean fclean re
